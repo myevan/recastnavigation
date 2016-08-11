@@ -7,6 +7,8 @@ local action = _ACTION or ""
 local todir = "Build/" .. action
 
 solution "recastnavigation"
+	platforms { "x86", "x64" }
+
 	configurations { 
 		"Debug",
 		"Release"
@@ -148,7 +150,7 @@ project "RecastDemo"
 	-- windows library cflags and libs
 	configuration { "windows" }
 		includedirs { "../RecastDemo/Contrib/SDL/include" }
-		libdirs { "../RecastDemo/Contrib/SDL/lib/x86" }
+		libdirs { "../RecastDemo/Contrib/SDL/lib/%{cfg.platform}" }
 		debugdir "../RecastDemo/Bin/"
 		links { 
 			"glu32",
@@ -158,7 +160,7 @@ project "RecastDemo"
 		}
 		postbuildcommands {
 			-- Copy the SDL2 dll to the Bin folder.
-			'{COPY} "%{wks.location}../../Contrib/SDL/lib/x86/SDL2.dll" "%{cfg.targetdir}"'
+			'{COPY} "%{wks.location}../../Contrib/SDL/lib/%{cfg.platform}/SDL2.dll" "%{cfg.targetdir}"'
 		}
 
 	-- mac includes and libs
@@ -226,7 +228,7 @@ project "Tests"
 	-- windows library cflags and libs
 	configuration { "windows" }
 		includedirs { "../RecastDemo/Contrib/SDL/include" }
-		libdirs { "../RecastDemo/Contrib/SDL/lib/x86" }
+		libdirs { "../RecastDemo/Contrib/SDL/lib/%{cfg.platform}" }
 		debugdir "../RecastDemo/Bin/"
 		links { 
 			"glu32",
